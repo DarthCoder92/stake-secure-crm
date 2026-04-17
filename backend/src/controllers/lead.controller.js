@@ -35,6 +35,46 @@ export const createLead = async (req, res) => {
 
 };
 
+
+export const getAllLeads = async (req, res) => {
+
+    try {
+        const leadsList = (await Customer.find({}).sort("-createdAt"));
+        res.status(200).json(leadsList);
+
+    } catch (error) {
+        console.error("Error retrieving data: ", error.message );
+        res.status(500).json({Message: "Server error"});
+        
+    }
+
+}
+
+
+export const updateLeadStatus = async (req, res) => {
+
+    try {
+        const {id} = req.params;
+        if(!id) return res.status(400).json({Message: "Please provide lead id"});
+
+        const {status} = req.body;
+        if(!status) return res.status(400).json({Message: "Status not received from client"});
+
+        const updatedLead = await Customer.findOneAndUpdate({leadId: id}, {status: status}, {returnDocument: 'after'});
+        if(!updatedLead) return res.status(400).json({Message: "Error while updating lead Status"});
+        return res.status(200).json(updatedLead);
+
+
+        
+    } catch (error) {
+        console.error("Error while updating lead data.", error.message);
+        return res.status(500).json({Message: "Server error"});
+        
+    }
+
+}
+
+
 export const test = async (req, res) => {
 
     return res.send("The api is working!");
