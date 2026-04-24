@@ -1,17 +1,28 @@
 import { useState } from 'react'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import LandingPage from '../pages/LandingPage.jsx';
+import AdminDashboard from '../pages/AdminDashboard.jsx';
+import NavBar from '../components/NavBar.jsx';
+import LoginPage from '../pages/LoginPage.jsx';
 
 
 function App() {
 
-  const [formData, setFromData] = useState({
-    name:"",
-    phone:"",
-    vehicle:""
-  });
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <h1 className="text-3xl font-bold text-gray-800">Stake Secure</h1>
+    <div >
+      
+      <BrowserRouter>
+      <NavBar />
+      <main className='min-h-screen bg-gray-50'>
+      <Routes>
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/admin' element={<AdminDashboard />} />
+        <Route path='*' element={<p>Page not found</p>} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+      </main>
+      </BrowserRouter>
     </div>
   )
 }

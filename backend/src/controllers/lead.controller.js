@@ -1,5 +1,5 @@
 import Customer from "../models/customer.js";
-
+import jwt from "jsonwebtoken";
 
 export const createLead = async (req, res) => {
 
@@ -52,7 +52,6 @@ export const getAllLeads = async (req, res) => {
 
 
 export const updateLeadStatus = async (req, res) => {
-
     try {
         const {id} = req.params;
         if(!id) return res.status(400).json({Message: "Please provide lead id"});
@@ -60,24 +59,39 @@ export const updateLeadStatus = async (req, res) => {
         const {status} = req.body;
         if(!status) return res.status(400).json({Message: "Status not received from client"});
 
-        const updatedLead = await Customer.findOneAndUpdate({leadId: id}, {status: status}, {returnDocument: 'after'});
-        if(!updatedLead) return res.status(400).json({Message: "Error while updating lead Status"});
+        // FIX 1: We are now searching by MongoDB's native _id
+        // FIX 2: We use { new: true } to return the updated document
+        const updatedLead = await Customer.findByIdAndUpdate(
+            id, 
+            { status: status }, 
+            { new: true } 
+        );
+
+        if(!updatedLead) return res.status(404).json({Message: "Lead not found in the database"});
+        
         return res.status(200).json(updatedLead);
-
-
         
     } catch (error) {
-        console.error("Error while updating lead data.", error.message);
+        console.error("Error while updating lead data:", error.message);
         return res.status(500).json({Message: "Server error"});
-        
     }
-
 }
-
 
 export const test = async (req, res) => {
 
     return res.send("The api is working!");
 
+}
+
+export const adminLogin = (req, res) => {
+  const { email, password } = req.body;
+
+  if (email === 'admin@stakesecure.com' && password === 'password123') {
+    const payload = { role: 'admin' };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+    res.json({ token });
+  } else {
+    res.status(401).json({ message: 'Invalid credentials' });
+  }
 }
 

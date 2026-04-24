@@ -1,14 +1,15 @@
-import {createLead, getAllLeads, updateLeadStatus, test} from "../controllers/lead.controller.js";
+import {createLead, getAllLeads, updateLeadStatus, adminLogin, test} from "../controllers/lead.controller.js";
 import express from "express";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 
 const router = express.Router();
 
-
+router.post("/login", adminLogin);
 router.post("/lead", createLead);
 router.get("/test", test);
-router.get("/lead", getAllLeads);
-router.put("/lead/:id", updateLeadStatus);
+router.get("/lead", verifyToken, getAllLeads);
+router.put("/lead/:id", verifyToken,  updateLeadStatus);
 
 
 
