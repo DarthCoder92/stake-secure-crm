@@ -46,7 +46,7 @@ const LeadTable = () => {
       });
 
       if(response.ok) {
-        // Instantly update the React UI without reloading the page
+        
         setLeads(leads.map(lead => lead._id === id ? {...lead, status: newStatus} : lead));
       }
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [status, setStatus] = useState('idle'); // 'idle', 'loading', 'error'
+  const [status, setStatus] = useState('idle'); 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -15,7 +15,7 @@ const LoginPage = () => {
     setStatus('loading');
 
     try {
-      // 🛑 Make sure this port matches your backend (5000)
+      
       const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -25,10 +25,10 @@ const LoginPage = () => {
       const data = await response.json();
       
       if (response.ok) {
-        localStorage.setItem('token', data.token); // Save the VIP Pass
-        navigate('/admin'); // Redirect to dashboard
+        localStorage.setItem('token', data.token); 
+        navigate('/admin'); 
       } else {
-        setStatus('error'); // Trigger the red error UI
+        setStatus('error'); 
       }
     } catch(err) {
       console.error("Login fetch error:", err);

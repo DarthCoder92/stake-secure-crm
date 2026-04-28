@@ -17,7 +17,7 @@ const LeadForm = () => {
     setFormData({...formData, [e.target.name]:e.target.value});
   };
 
-  // 4. Send your data to your Node/ Express backend
+  // 4. Send data to Node/ Express backend
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevents the page from reloading
     setStatus('loading');

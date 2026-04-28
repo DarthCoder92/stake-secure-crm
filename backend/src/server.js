@@ -22,10 +22,13 @@ app.use("/api/", router);
 
 
 
+if(ENV.ENVIRONMENT === "development") {
+    app.listen(PORT, () => {
+        console.log(`Server listening of port: ${PORT}`);
 
-app.listen(PORT, () => {
-    console.log(`Server listening of port: ${PORT}`);
-
-});
+    });
+}
 
 connectDB();
+
+export default app;

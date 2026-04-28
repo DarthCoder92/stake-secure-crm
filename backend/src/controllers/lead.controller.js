@@ -11,7 +11,7 @@ export const createLead = async (req, res) => {
             return res.status(400).json({ message: "Please provide name, phone, vehicle and status."});
         }
 
-        // MVP Unique lead id generator: "STAKE-" + Random 4 digit number + last 2 digits of current UNIX time.
+        // Unique lead id generator: "STAKE-" + Random 4 digit number + last 2 digits of current UNIX time.
         const randomNum = Math.floor(1000 + Math.random() * 9000);
         const timeStampStr = Date.now().toString().slice(-2);
         const customerLeadId = `STAKE-${randomNum}-${timeStampStr}`;
@@ -59,8 +59,7 @@ export const updateLeadStatus = async (req, res) => {
         const {status} = req.body;
         if(!status) return res.status(400).json({Message: "Status not received from client"});
 
-        // FIX 1: We are now searching by MongoDB's native _id
-        // FIX 2: We use { new: true } to return the updated document
+        // Searching by native _id instead of leadId to avoid returning null
         const updatedLead = await Customer.findByIdAndUpdate(
             id, 
             { status: status }, 

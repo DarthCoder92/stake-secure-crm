@@ -1,4 +1,4 @@
-// backend/src/middleware/auth.middleware.js
+
 import jwt from 'jsonwebtoken';
 
 export const verifyToken = (req, res, next) => {
@@ -15,6 +15,6 @@ export const verifyToken = (req, res, next) => {
     if (err) return res.status(403).json({ message: 'Invalid or Expired Token' });
     
     req.user = user;
-    next(); // Token is valid, let them through to the controller!
+    next(); // Token is valid, letting it through to the controller
   });
 };
