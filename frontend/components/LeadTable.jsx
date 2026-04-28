@@ -36,7 +36,7 @@ const LeadTable = () => {
       const token = localStorage.getItem('token'); // Get the token
       console.log("Updating ID:", id, "with Token:", token);
       // Send the update to the backend
-      const response = await fetch(`http://localhost:3000/api/lead/${id}`, {
+      const response = await fetch(`/api/lead/${id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
