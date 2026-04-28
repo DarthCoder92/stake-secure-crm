@@ -15,7 +15,7 @@ const LeadTable = () => {
 
       // 1. Grab the token from the browser's memory
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/api/lead', {
+      const response = await fetch('/api/lead', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
